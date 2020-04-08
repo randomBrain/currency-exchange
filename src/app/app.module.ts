@@ -10,12 +10,15 @@ import { RatesCacheService } from './services/rates-cache/rates-cache.service';
 import { ExchangeRatesService } from './services/exchange-rates/exchange-rates.service';
 import { ConfigService } from './services/config/config.service';
 import { MenuComponent } from './components/menu/menu.component';
+import { ErrorService } from './services/error/error.service';
+import { ErrorListComponent } from './components/error-list/error-list.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent
+    MenuComponent,
+    ErrorListComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,8 @@ import { MenuComponent } from './components/menu/menu.component';
   providers: [
     ExchangeRatesService,
     RatesCacheService,
-    ConfigService
+    ConfigService,
+    ErrorService
   ],
   bootstrap: [AppComponent]
 })

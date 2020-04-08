@@ -6,6 +6,7 @@ import * as moment from 'moment';
 })
 export class ConfigService {
   public API_DATE_FORMAT = 'YYYY-MM-DD';
+  ERROR_LIFESAPN = 10000;
   MIN_DATE: moment.Moment;
   MAX_DATE: moment.Moment;
   API_HOST = 'https://api.exchangeratesapi.io/';

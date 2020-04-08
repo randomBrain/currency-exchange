@@ -1,0 +1,6 @@
+
+<mat-card  *ngIf="(errors.$errorList | async).length > 0">
+    <mat-list dense color="warn">
+        <mat-list-item *ngFor="let error of (errors.$errorList | async); trackBy: trackByFn">{{error.message}}</mat-list-item>
+    </mat-list>
+</mat-card>

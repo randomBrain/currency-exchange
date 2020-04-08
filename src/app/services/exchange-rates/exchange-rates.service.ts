@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject, combineLatest, of } from 'rxjs';
-import { switchMap, filter, map, tap, share } from 'rxjs/operators'
+import { switchMap, filter, map, tap, share, retry, catchError } from 'rxjs/operators'
 
 import * as moment from 'moment';
 import * as currencyJs from 'currency.js'
@@ -9,6 +9,7 @@ import { Currency } from 'src/app/modules/shared/models/currencies';
 import { ApiRates, ApiHistoricalRates } from 'src/app/modules/shared/models/apiResponses';
 import { RatesCacheService } from '../rates-cache/rates-cache.service';
 import { ConfigService } from '../config/config.service';
+import { ErrorService } from '../error/error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,8 @@ export class ExchangeRatesService {
   constructor(
     private http: HttpClient,
     private cache: RatesCacheService,
-    private config : ConfigService
+    private config: ConfigService,
+    private errorService: ErrorService
   ) {
     this.$loadingInProgress.next(false);
     this.initCurrencies();
@@ -66,9 +68,15 @@ export class ExchangeRatesService {
     return this.http.get(url, {
       params
     }).pipe(
+      retry(1),
+      catchError((error: HttpErrorResponse) => {
+        this.errorService.addError('Could not fetch data. Please try again later.')
+        return of(null);
+      }),
       tap(() => {
         this.$loadingInProgress.next(false);
-      })
+      }),
+      filter(v => !!v)
     ) as Observable<T>
   }
 
