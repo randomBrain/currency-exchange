@@ -1,0 +1,8 @@
+<mat-card class="root flex vertical">
+    <mat-card-header class="flex horizontal justify-center">
+        <h1><ng-content select="[title]"></ng-content></h1>
+    </mat-card-header>
+    <mat-card-content class="flex vertical">
+        <ng-content select="[content]"></ng-content>
+    </mat-card-content>
+</mat-card>

@@ -3,11 +3,15 @@ import { CommonModule } from '@angular/common';
 import { CurrencySelectorComponent } from './components/currency-selector/currency-selector.component';
 import { MaterialModule } from '../material/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { PageComponent } from './components/page/page.component';
 
 
 
 @NgModule({
-  declarations: [CurrencySelectorComponent],
+  declarations: [
+    CurrencySelectorComponent,
+    PageComponent
+  ],
   imports: [
     CommonModule,
     MaterialModule,
@@ -18,7 +22,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     
   ],
   exports: [
-    CurrencySelectorComponent
+    CurrencySelectorComponent,
+    PageComponent
   ]
 })
 export class SharedModule { }
