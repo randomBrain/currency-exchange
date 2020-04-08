@@ -13,11 +13,9 @@ export class CurrencySelectorComponent {
 
   @Input() label:string = '';
   @Input() selected: Currency;
-  @Input() disabled: boolean;
+  @Input() disabled: boolean = false;
 
   @Output() selectionChanged: EventEmitter<Currency> = new EventEmitter();
-
-  selectedFormControl = new FormControl('', Validators.required);
 
   onCurrencyChange(e: MatSelectChange) {
     this.selectionChanged.emit(e.value);

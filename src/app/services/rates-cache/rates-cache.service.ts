@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiHistoryRates } from 'src/app/modules/shared/models/apiResponses';
+import { ApiRates } from 'src/app/modules/shared/models/apiResponses';
 import { Currency } from 'src/app/modules/shared/models/currencies';
 import { ConfigService } from '../config/config.service';
 import * as moment from 'moment';
@@ -9,11 +9,11 @@ import * as moment from 'moment';
   providedIn: 'root'
 })
 export class RatesCacheService {
-  private cache: {[key: string]: ApiHistoryRates} = {};
+  private cache: {[key: string]: ApiRates} = {};
 
   constructor(private config: ConfigService) {}
 
-  private createKeyFRomRespose(apiResponse: ApiHistoryRates): string {
+  private createKeyFRomRespose(apiResponse: ApiRates): string {
     return this.createKeyFromValues(apiResponse.base, apiResponse.date);
   }
 
@@ -21,7 +21,7 @@ export class RatesCacheService {
     return `${base}${date}`
   }
 
-  add(data: ApiHistoryRates, desiredDate: string): void {
+  add(data: ApiRates, desiredDate: string): void {
     const key = this.createKeyFRomRespose(data);
     const desiredKey = this.createKeyFromValues(data.base, desiredDate);
     const queryAge = moment.duration(
@@ -36,7 +36,7 @@ export class RatesCacheService {
     }
   }
 
-  getData(base: Currency, date: string): ApiHistoryRates {
+  getData(base: Currency, date: string): ApiRates {
     const key = this.createKeyFromValues(base, date);
     return this.cache[key];
   }

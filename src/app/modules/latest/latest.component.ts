@@ -9,6 +9,7 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { ExchangeRatesService } from 'src/app/services/exchange-rates/exchange-rates.service';
+import { ConfigService } from 'src/app/services/config/config.service';
 const moment = _rollupMoment || _moment;
 
 @Component({
@@ -29,16 +30,20 @@ export class LatestComponent implements OnInit, OnDestroy {
     disabled: false
   });
 
-  maxDate = moment();
-  minDate = moment('01.01.1999.', 'DD.MM.YYYY.');
+  maxDate = this.config.MAX_DATE;
+  minDate =this.config.MIN_DATE;
   
-  constructor(private exchangeRates: ExchangeRatesService) {
+  constructor(
+    private exchangeRates: ExchangeRatesService,
+    private config: ConfigService
+  ) {
     this.$loading = this.exchangeRates.$loadingBase;
   }
 
   ngOnInit(): void {
     this.initActualRates();
     this.$base = this.exchangeRates.$base.asObservable();
+    this.exchangeRates.setStartDate(moment());
     this.initDateChange();
   }
 
@@ -52,7 +57,7 @@ export class LatestComponent implements OnInit, OnDestroy {
   }
 
   private initActualRates() {
-    this.exchangeRates.$historicalRates.pipe(
+    this.exchangeRates.$ratesList.pipe(
       map(ratesData => 
         Object.keys(ratesData.rates)
           .filter(key => key !== ratesData.base)

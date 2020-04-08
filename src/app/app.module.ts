@@ -9,11 +9,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { RatesCacheService } from './services/rates-cache/rates-cache.service';
 import { ExchangeRatesService } from './services/exchange-rates/exchange-rates.service';
 import { ConfigService } from './services/config/config.service';
+import { MenuComponent } from './components/menu/menu.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,

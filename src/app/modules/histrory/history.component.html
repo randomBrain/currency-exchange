@@ -1,0 +1,54 @@
+<app-page>
+    <ng-container title>History</ng-container>
+    <ng-container content>
+        <section class="flex horizontal justify-center gap">
+            <section class="flex horizontal align-center">
+                <app-currency-selector 
+                    label="Base currency"
+                    [selected]="$base | async"
+                    (selectionChanged)=onBaseChange($event)
+                    [disabled]="disabled"
+                ></app-currency-selector>
+            </section>
+            <section class="flex horizontal align-center">
+                <app-currency-selector 
+                    label="To"
+                    [selected]="$target | async"
+                    (selectionChanged)=onTargetChange($event)
+                    [disabled]="false"
+                ></app-currency-selector>
+            </section>
+            <section>
+                <mat-form-field>
+                    <mat-label>Start date</mat-label>
+                    <input 
+                        matInput
+                        [matDatepicker]="startPicker"
+                        [formControl]="startDate"
+                        [min]="minDate"
+                        [max]="maxDate"
+                    >
+                    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #startPicker></mat-datepicker>
+                </mat-form-field>
+            </section>
+            <section>
+                    <mat-form-field>
+                        <mat-label>End date</mat-label>
+                        <input 
+                            matInput
+                            [matDatepicker]="endPicker"
+                            [formControl]="endDate"
+                            [min]="minDate"
+                            [max]="maxDate"
+                        >
+                        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #endPicker></mat-datepicker>
+                    </mat-form-field>
+                </section>
+        </section>
+        <section class="flex justify-center">
+           <app-chart></app-chart>
+        </section>
+    </ng-container>
+</app-page>

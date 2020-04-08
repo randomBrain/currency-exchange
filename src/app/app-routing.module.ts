@@ -9,7 +9,8 @@ const routes: Routes = [
     redirectTo: '/rates'
   },
   { path: 'rates', loadChildren: () => import('./modules/latest/latest.module').then(m => m.LatestModule) },
-  { path: 'calculator', loadChildren: () => import('./modules/calculator/calculator.module').then(m => m.CalculatorModule) }];
+  { path: 'calculator', loadChildren: () => import('./modules/calculator/calculator.module').then(m => m.CalculatorModule) },
+  { path: 'history', loadChildren: () => import('./modules/histrory/history.module').then(m => m.HistoryModule) }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,0 +1,14 @@
+<nav class="hide-on-mobile">
+    <a [color]="'basic'" mat-button  routerLink="./calculator">Exchange calculator</a>
+    <a mat-button routerLink="./rates">Actual rates</a>
+    <a mat-button routerLink="./history">History</a>
+</nav>
+
+<button class="hide-on-desktop" mat-icon-button [matMenuTriggerFor]="menu" >
+  <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+    <button  mat-menu-item  routerLink="./calculator">Exchange calculator</button>
+    <button  mat-menu-item routerLink="./rates">Actual rates</button>
+    <button  mat-menu-item routerLink="./history">History</button>
+</mat-menu>

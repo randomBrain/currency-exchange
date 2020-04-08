@@ -5,8 +5,6 @@ import { MaterialModule } from '../material/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PageComponent } from './components/page/page.component';
 
-
-
 @NgModule({
   declarations: [
     CurrencySelectorComponent,
