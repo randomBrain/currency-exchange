@@ -1,0 +1,26 @@
+<mat-card class="root flex vertical">
+    <mat-card-header class="flex horizontal">
+        <mat-card-title>Calculator</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="flex vertical">
+        <section class="flex justify-center">
+                <app-currency-selector 
+                    label="Convert from"
+                    (selectionChanged)=onBaseChange($event)
+                ></app-currency-selector>
+                <app-currency-selector 
+                    label="Convert to"
+                    (selectionChanged)=onTargetChange($event)
+                ></app-currency-selector>
+            <mat-form-field>
+                <mat-label>Ammount</mat-label>
+                <input type="number" matInput [formControl]="ammount">
+            </mat-form-field>
+        </section>
+        <section class="flex justify-center">
+            <h1 *ngIf="!!($base | async) && !!($target | async)">
+                {{ammount.value}} {{$base | async}} = {{converted.value}} {{$target | async}}
+            </h1>
+        </section>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,20 @@
+@mixin matPanel
+    \:host
+        display: flex
+        flex: 1
+        justify-content: center
+        padding: 1em
+
+        .root
+            display: flex
+            flex: 1
+
+        mat-card-content
+            justify-content: center
+            display: flex
+            
+            mat-form-field, app-currency-selector
+                margin-right: 1em
+
+                &:last-child
+                    margin-right: 0

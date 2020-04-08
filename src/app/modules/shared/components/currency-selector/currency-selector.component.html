@@ -1,0 +1,14 @@
+<section>
+        <mat-form-field >
+            <mat-label>{{label}}</mat-label>
+            <mat-select 
+                matNativeControl
+                [disabled]="disabled"
+                (selectionChange)="onCurrencyChange($event)"
+                [ngModel]="selected"
+            >
+                <mat-option *ngFor="let item of currencies" [value]="item">{{item}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </section>
+    
