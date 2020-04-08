@@ -5,12 +5,14 @@
             <section>
                 <app-currency-selector 
                     label="Convert from"
+                    [selected]="$base | async"
                     (selectionChanged)=onBaseChange($event)
                 ></app-currency-selector>
             </section>
             <section>
                 <app-currency-selector 
                     label="Convert to"
+                    [selected]="$target | async"
                     (selectionChanged)=onTargetChange($event)
                 ></app-currency-selector>
             </section>
