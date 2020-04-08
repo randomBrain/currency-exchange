@@ -55,6 +55,9 @@
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
+
+window['_rollupMoment__default'] = null;
+
 import 'zone.js/dist/zone';  // Included with Angular CLI.
 
 

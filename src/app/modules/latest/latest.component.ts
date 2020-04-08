@@ -1,16 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import * as _moment from 'moment';
+import * as moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
-import {default as _rollupMoment} from 'moment';
 import { Currency } from '../shared/models/currencies';
-
-
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { ExchangeRatesService } from 'src/app/services/exchange-rates/exchange-rates.service';
 import { ConfigService } from 'src/app/services/config/config.service';
-const moment = _rollupMoment || _moment;
 
 @Component({
   selector: 'app-latest',
