@@ -37,7 +37,7 @@ export class LatestComponent implements OnInit, OnDestroy {
     private exchangeRates: ExchangeRatesService,
     private config: ConfigService
   ) {
-    this.$loading = this.exchangeRates.$loadingBase;
+    this.$loading = this.exchangeRates.$loadingInProgress;
   }
 
   ngOnInit(): void {

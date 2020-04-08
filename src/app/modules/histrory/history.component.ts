@@ -35,7 +35,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
   ) { 
     this.$base = this.exchangeRates.$base;
     this.$target = this.exchangeRates.$target.asObservable();
-    this.exchangeRates.$loadingBase.pipe(
+    this.exchangeRates.$loadingInProgress.pipe(
       takeUntil(this.$destroy)
     ).subscribe(val => {
       this.disabled =val;

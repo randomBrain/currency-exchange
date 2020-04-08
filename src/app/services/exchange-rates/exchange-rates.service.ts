@@ -19,7 +19,7 @@ export class ExchangeRatesService {
   public $amount: BehaviorSubject<number> = new BehaviorSubject(0);
   public $converted: Observable<string>;
 
-  public $loadingBase: Subject<boolean> = new Subject();
+  public $loadingInProgress: Subject<boolean> = new Subject();
 
   public $$startDate: BehaviorSubject<string> = new BehaviorSubject(null);
   public $$endDate: BehaviorSubject<string> = new BehaviorSubject(moment().format(this.config.API_DATE_FORMAT))
@@ -33,7 +33,7 @@ export class ExchangeRatesService {
     private cache: RatesCacheService,
     private config : ConfigService
   ) {
-    this.$loadingBase.next(false);
+    this.$loadingInProgress.next(false);
     this.initCurrencies();
     this.initActualRates();
     this.initRatesList();
@@ -61,43 +61,45 @@ export class ExchangeRatesService {
     this.$$endDate.next(date.format(this.config.API_DATE_FORMAT))
   }
 
-  private fetchRatesByDate(base: Currency, date: string ): Observable<ApiRates> {
-    this.$loadingBase.next(true);
-    return this.http.get(`${this.config.API_HOST}${date}`, {
-      params: {
-        base: base
-      }
+  private fetchData<T>(url: string, params: any) {
+    this.$loadingInProgress.next(true);
+    return this.http.get(url, {
+      params
     }).pipe(
-      tap((rates: ApiRates) => {
-        this.$loadingBase.next(false);
-        this.cache.add(rates, date);
+      tap(() => {
+        this.$loadingInProgress.next(false);
       })
-    ) as Observable<ApiRates>
+    ) as Observable<T>
   }
 
-  private fetchLatestRates(base: Currency, currencies: Currency[] = []): Observable<ApiRates> {
-    return this.http.get(`${this.config.API_HOST}latest`, {
-      params: {
-        base: base,
-        symbols: currencies
-      }
-    }) as Observable<ApiRates>
+  private fetchRatesByDate(base: Currency, date: string ): Observable<ApiRates> {
+    this.$loadingInProgress.next(true);
+    return this.fetchData<ApiRates>(`${this.config.API_HOST}${date}`, {base} )
+      .pipe(
+        tap((rates: ApiRates) => {
+          this.cache.add(rates, date);
+        })
+      )
   }
 
-  private fetchHistoricalRates(base: Currency, target: Currency, start: string, end: string) {
-    this.$loadingBase.next(true);
-    return this.http.get(`${this.config.API_HOST}history`, {
-      params: {
+  private fetchLatestRates(base: Currency): Observable<ApiRates> {
+    this.$loadingInProgress.next(true);
+    return this.fetchData<ApiRates>(
+      `${this.config.API_HOST}latest`, 
+      { base}
+    )
+  }
+
+  private fetchHistoricalRates(base: Currency, target: Currency, start: string, end: string): Observable<ApiHistoricalRates>{
+    this.$loadingInProgress.next(true);
+    return this.fetchData<ApiHistoricalRates>(
+      `${this.config.API_HOST}history`, 
+      {
         base: base,
         symbols: target,
         start_at: start,
         end_at: end
-      }
-    }).pipe(
-      tap(() => {
-        this.$loadingBase.next(false);
-      })
-    ) as Observable<ApiHistoricalRates>
+      });
   }
 
   private initHistoricalRates() {
@@ -123,13 +125,7 @@ export class ExchangeRatesService {
 
   private initActualRates() {
     this.$actualRates = this.$base.pipe(
-      tap((base) => {
-        this.$loadingBase.next(true);
-      }),
       switchMap((base) => this.fetchLatestRates(base)),
-      tap((data) => {
-        this.$loadingBase.next(false);
-      }),
     )
   }
 
